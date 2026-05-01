@@ -1,27 +1,19 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import declarative_base, sessionmaker
 import os
 from dotenv import load_dotenv
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, declarative_base
 
-# Tải các biến từ file .env
+# Tải các biến môi trường từ tập tin .env
 load_dotenv()
 
-# Lấy chuỗi kết nối từ file .env
+# Lấy chuỗi kết nối từ biến môi trường
 SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL")
 
-# Khởi tạo Engine (Động cơ kết nối)
+# Tạo Engine (Nguồn kết nối chính)
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
-# Tạo Session (Phiên làm việc với Database)
+# Tạo SessionLocal (Phiên làm việc với database)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# Base class để sau này các bảng (models) kế thừa
+# Tạo Base class cho các models
 Base = declarative_base()
-
-# Dependency để lấy Database Session cho từng Request (Dùng cho API)
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
