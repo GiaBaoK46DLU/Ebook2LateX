@@ -63,6 +63,8 @@ class Document(Base):
 
     status = Column(String(50), default='Pending') # Pending, Processed, Error
 
+    # Dùng server_default='1' để các dữ liệu cũ không bị lỗi trống (NULL).
+    version = Column(Integer, server_default='1', default=1)
 
     # Quan hệ ngược lại với User
 
@@ -129,3 +131,11 @@ class Log(Base):
     # Quan hệ ngược lại với FormulaEntry
 
     formula = relationship("FormulaEntry", back_populates="logs")
+    
+class UserFavorite(Base):
+    __tablename__ = 'user_favorites'
+    
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    user_id = Column(UUID(as_uuid=True), ForeignKey('users.user_id', ondelete='CASCADE'), nullable=False)
+    formula_id = Column(UUID(as_uuid=True), ForeignKey('formula_entries.id', ondelete='CASCADE'), nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
