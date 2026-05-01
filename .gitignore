@@ -1,0 +1,26 @@
+# --------------------
+# Frontend (Node.js/React)
+# --------------------
+node_modules/
+dist/
+build/
+.env
+.env.local
+
+# --------------------
+# Backend (Python/FastAPI)
+# --------------------
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.pytest_cache/
+
+# --------------------
+# Hệ điều hành & IDE rác
+# --------------------
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
